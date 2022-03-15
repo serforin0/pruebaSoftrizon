@@ -1,15 +1,31 @@
-/*
-https://docs.nestjs.com/guards#guards
-*/
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {Observable} from 'rxjs';
+import {ApiService} from '../services/api.service';
+import {map, tap} from 'rxjs/operators';
 
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { Observable } from 'rxjs';
-
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    return true;
+
+  constructor(private apiService: ApiService,
+              private router: Router) {
   }
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return this.apiService.jwtToken.pipe(
+      map((result) => !!result),
+      tap(result => {
+        if (!result) {
+          this.router.navigateByUrl('/login').then();
+          return result;
+        }
+        return result;
+      })
+    );
+  }
+
 }

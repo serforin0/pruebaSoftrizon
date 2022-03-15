@@ -18,6 +18,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -40,6 +42,12 @@ import { MatCardModule } from '@angular/material/card';
     MatInputModule,
     MatCardModule,
     FormsModule,
+    ToastrModule.forRoot({
+      closeButton: true,
+      progressBar: true,
+      progressAnimation: 'increasing'
+
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
