@@ -1,8 +1,8 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateTaskDto } from 'src/DTO/create-task.dto';
-import { Task, TaskStatus, TaskPriority } from 'src/Entity/task.entity';
-import { Users } from 'src/Entity/user.entity';
+import { CreateTaskDto } from '../DTO/create-task.dto';
+import { Task, TaskStatus, TaskPriority } from '../Entity/task.entity';
+import { Users } from '../Entity/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -23,11 +23,11 @@ export class TodoService {
         }
     }
 
-    async getTaskById(id: number) {
+    getTaskById(id: number) {
         return this.repo.findOne({ id})
     }
 
-    async createNewTask(createTaskDTO: CreateTaskDto, user: Users) {
+     createNewTask(createTaskDTO: CreateTaskDto, user: Users) {
         const task = new Task();
         const { title, description } = createTaskDTO
         task.title = title;
@@ -39,7 +39,7 @@ export class TodoService {
         this.repo.create(task);
 
         try {
-            return await this.repo.save(task);
+            return  this.repo.save(task);
 
         }catch (error) {
             throw new InternalServerErrorException('Something wne wrong, task not created');

@@ -1,15 +1,16 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, ValidationPipe } from '@nestjs/common';
-import { CreateTaskDto } from 'src/DTO/create-task.dto';
-import { Task, TaskPriority, TaskStatus } from 'src/Entity/task.entity';
+import { CreateTaskDto } from '../DTO/create-task.dto';
+import { Task, TaskPriority, TaskStatus } from '../Entity/task.entity';
 import { TodoService } from './todo.service';
 import { TaskStatusValidation } from "../pipes/TaskStatusValidation.pipe";
 import { AuthGuard } from '@nestjs/passport';
-import { User } from 'src/users/user.decorator';
-import { Users } from 'src/Entity/user.entity';
+import { User } from '../users/user.decorator';
+import { Users } from '../Entity/user.entity';
 
 @Controller('todos')
 @UseGuards(AuthGuard())
-export class TodoController {
+export default class TodoController {
+    static getTaskById: any;
 
     constructor(private todoService: TodoService) {}
 
@@ -23,7 +24,7 @@ export class TodoController {
     }
 
     @Get(':id')
-    async getTaskById(@Param('id') id: number) {
+     getTaskById(@Param('id') id: number) {
         return this.todoService.getTaskById(id);
     }
 

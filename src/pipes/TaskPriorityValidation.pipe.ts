@@ -1,5 +1,5 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform } from "@nestjs/common";
-import { TaskPriority } from "src/Entity/task.entity";
+import { TaskPriority } from "../Entity/task.entity";
 
 
 export class TaskPriorityValidation implements PipeTransform {
